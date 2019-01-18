@@ -180,7 +180,7 @@ public class WordCount {
 		
 		/**
 		 * output:
-		 *  (Hello,19)
+		    (Hello,19)
 			(Hello1,4)
 			(20002,2)
 			(20006,2)
