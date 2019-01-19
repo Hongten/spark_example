@@ -18,11 +18,11 @@ import scala.Tuple2;
 /**
  * 对单词个数进行统计，然后按照出现次数由大到小输出。
  * 
- * @useage: WordCount
+ * @useage: WordCountMain
  * 
  * @author Hongten
  */
-public class WordCount {
+public class WordCountMain {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {

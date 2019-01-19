@@ -32,9 +32,9 @@ import com.hongten.spark.example.traffic.datagenerate.DataLoad;
  * 
  * @author Hongten
  */
-public class MonitorStatus {
+public class MonitorStatusMain {
 
-	static final Logger logger = Logger.getLogger(MonitorStatus.class);
+	static final Logger logger = Logger.getLogger(MonitorStatusMain.class);
 
 	public static void main(String[] args) {
 		long begin = System.currentTimeMillis();
