@@ -1,0 +1,252 @@
+----Hive+Sqoop+Mysql整合
+--当一辆车在道路上面行驶的时候，道路上面的监控点里面的摄像头就会对车进行数据采集。
+--我们对采集的数据进行分析，处理。
+-- 需求： 统计分析监控点和摄像头的状态（正常工作/异常）
+
+
+记录时间    	车牌号码    		车速			道路编号  监控地点		摄像头编号
+date_time 	vehicle_plate 	vehicle_speed	road_id   monitor_id	camera_id	
+
+数据样本，中间使用'\t'隔开
+16/01/2019 10:20:30 SCN89000J 124 10002 20004 40007
+
+具体说明：
+
+道路编号
+10001 - 10100
+
+监控地点 - 在一条道路上面有2个监控点
+20001 - 20200
+
+摄像头编号 - 在一个监控点上面2个摄像头
+40001 - 40400
+
+
+道路：    10001                         10002
+监控：    20001-20002                   20003-20004
+摄像头：  40001-40002-40003-40004       40005-40006-40007-40008
+
+车速： 1-300。 如果大于260，则为超速行驶
+
+车牌： SCN89000J
+
+记录时间： 16/01/2019 10:20:30
+
+
+--车辆记录log
+16/01/2019 14:06:44	SVM35185L	258	10295	20590	41179
+16/01/2019 15:56:25	SVM35185L	110	10288	20575	41149
+16/01/2019 02:22:29	SVM35185L	28	10109	20217	40436
+16/01/2019 24:29:59	SSK43417H	254	10281	20562	41123
+16/01/2019 07:36:54	SSK43417H	149	10124	20247	40495
+16/01/2019 12:21:30	SSK43417H	196	10211	20421	40843
+16/01/2019 12:42:43	SSK43417H	92	10308	20615	41230
+16/01/2019 02:57:59	SDV20274X	206	10166	20332	40663
+16/01/2019 11:60:17	SDV20274X	191	10372	20744	41488
+16/01/2019 00:09:06	SDV20274X	197	10094	20188	40374
+16/01/2019 21:18:30	SDV20274X	294	10101	20201	40401
+16/01/2019 11:23:38	SDV20274X	74	10163	20325	40652
+16/01/2019 04:35:16	SDV20274X	53	10077	20153	40305
+16/01/2019 20:56:56	SDV20274X	31	10113	20226	40449
+16/01/2019 16:50:11	SEN89218Y	58	10202	20404	40808
+16/01/2019 18:34:47	SEN89218Y	113	10042	20083	40168
+16/01/2019 02:25:52	SEN89218Y	35	10051	20101	40204
+16/01/2019 24:08:52	SEN89218Y	77	10165	20330	40657
+
+
+--道路-监控-摄像头关系
+10001	20001	40001
+10001	20001	40002
+10001	20002	40003
+10001	20002	40004
+10002	20003	40005
+10002	20003	40006
+10002	20004	40007
+10002	20004	40008
+10003	20005	40009
+10003	20005	40010
+10003	20006	40011
+10003	20006	40012
+10004	20007	40013
+10004	20007	40014
+10004	20008	40015
+10004	20008	40016
+
+
+
+
+
+--编译运行java code
+cd /root/vehicle_dir/
+
+vi DataGenerate.java
+
+please refer the /spark_example/src/com/hongten/spark/example/traffic/datagenerate/DataGenerate.java
+
+:wq
+
+javac DataGenerate.java
+java DataGenerate
+
+--运行完成，会生成下面两个文件
+/root/vehicle_dir/vehicle_log
+/root/vehicle_dir/road_monitor_camera_relationship
+
+
+-- 创建table，并且把结果数据导入到Hive table里面
+cd /root/vehicle_dir/
+
+vi hive_vehicle.sql
+
+
+--1.drop t_vehicle_log
+drop table IF EXISTS t_vehicle_log;
+
+--2.create t_vehicle_log
+CREATE TABLE t_vehicle_log(
+date_time string ,
+vehicle_plate string ,
+vehicle_speed int ,
+road_id string ,
+monitor_id string ,
+camera_id string
+)ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n';
+
+--3.load data into t_vehicle_log
+load data local inpath '/root/vehicle_dir/vehicle_log' into table t_vehicle_log;
+
+--4.drop t_road_monitor_camera_relationship
+drop table IF EXISTS t_road_monitor_camera_relationship;
+
+--5.create t_road_monitor_camera_relationship
+CREATE TABLE t_road_monitor_camera_relationship(
+road_id string ,
+monitor_id string ,
+camera_id string
+)ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n';
+
+--6.load data into t_road_monitor_camera_relationship
+load data local inpath '/root/vehicle_dir/road_monitor_camera_relationship' into table t_road_monitor_camera_relationship;
+
+--7.drop t_monitor_camera
+drop table IF EXISTS t_monitor_camera;
+
+--8.create t_monitor_camera
+create table t_monitor_camera(
+monitor_id string ,
+cameranum int,
+workingcameranum int,
+notWorkingCameraNum int
+)ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n';
+
+--9.load data from other table into t_monitor_camera
+from (select monitor_id, count(distinct camera_id) cameraNum from t_road_monitor_camera_relationship group by monitor_id) t1 
+left outer join 
+(select monitor_id, NVL(count(distinct camera_id), 0) workingCameraNum from t_vehicle_log group by monitor_id) t2
+on t1.monitor_id=t2.monitor_id
+insert into table t_monitor_camera
+select t1.monitor_id, t1.cameraNum cameraNum, NVL(t2.workingCameraNum, 0) workingCameraNum,NVL((t1.cameraNum - NVL(t2.workingCameraNum, 0)), 0) notWorkingCameraNum;
+
+
+:wq
+
+
+--配置sqoop：hive数据导入到mysql中
+--注意： --export-dir /user/hive/warehouse/t_monitor_camera/ 这里的地址可以在hive中，
+--通过desc formatted t_monitor_camera 查看
+--Location: hdfs://mycluster/user/hive/warehouse/t_monitor_camera
+
+cd /root/vehicle_dir/
+
+vi hive_to_mysql_for_vehicle
+
+export
+--connect
+jdbc:mysql://node1:3306/sqoop_db
+--username
+root
+--password
+'!QAZ2wsx3edc'
+--table
+t_hive_to_mysql_for_vehicle
+-m
+1
+--columns
+monitor_id,camera_num,working_camera_num,not_working_camera_num
+--fields-terminated-by
+'|'
+--export-dir
+/user/hive/warehouse/t_monitor_camera/
+
+：wq
+
+
+
+
+--在mysql里面创建表
+mysql -u root -p 
+!QAZ2wsx3edc
+use sqoop_db;
+
+--如果有则删除
+DROP TABLE IF EXISTS t_hive_to_mysql_for_vehicle;
+
+CREATE TABLE t_hive_to_mysql_for_vehicle (monitor_id VARCHAR(5), camera_num INT, working_camera_num INT, not_working_camera_num INT);
+
+
+
+
+--编辑可执行脚本
+cd /root/vehicle_dir/
+vi hive_to_mysql_vehicle.sh
+
+echo 'job begin'
+
+cd /home/hive/bin
+./hive -f /root/vehicle_dir/hive_vehicle.sql
+
+echo 'begin to inport to mysql'
+
+sqoop --options-file /root/vehicle_dir/hive_to_mysql_for_vehicle
+echo 'done.'
+
+:wq
+
+
+--赋予可执行属性
+chmod +x hive_to_mysql_vehicle.sh
+
+
+--执行脚本之前，查询t_hive_to_mysql_for_vehicle
+mysql> select * from t_hive_to_mysql_for_vehicle;
+Empty set (0.00 sec)
+
+--执行脚本
+./hive_to_mysql_vehicle.sh
+
+
+
+--执行脚本之后，查询t_hive_to_mysql_for_vehicle
+mysql> select * from t_hive_to_mysql_for_vehicle where not_working_camera_num  > 0;
++------------+------------+--------------------+------------------------+
+| monitor_id | camera_num | working_camera_num | not_working_camera_num |
++------------+------------+--------------------+------------------------+
+| 20090      |          2 |                  0 |                      2 |
+| 20099      |          2 |                  0 |                      2 |
+| 20100      |          2 |                  0 |                      2 |
+| 20130      |          2 |                  0 |                      2 |
+| 20178      |          2 |                  0 |                      2 |
+| 20354      |          2 |                  0 |                      2 |
+| 20363      |          2 |                  0 |                      2 |
+| 20364      |          2 |                  0 |                      2 |
+| 20371      |          2 |                  0 |                      2 |
+| 20372      |          2 |                  0 |                      2 |
+| 20542      |          2 |                  0 |                      2 |
++------------+------------+--------------------+------------------------+
+11 rows in set (0.00 sec)

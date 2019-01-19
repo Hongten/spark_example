@@ -31,8 +31,8 @@ class GenerateVehicleLog implements Callable<String>{
 	
 	private String getVehicleLog(StringBuffer contentSb, String date, Random random, List<Integer> errorRoadIdList, String vehiclePlate, Integer[] roadIdArray) {
 		// 每一辆车产生记录在100条记录以内
-		// 即最多过100个监控点
-		// 即最多过50条路
+		// 即最多过100个监控点(Common.ROAD_NUM*2)
+		// 即最多过50条路(Common.ROAD_NUM)
 		// 这里可以根据需要调节
 		for (int n = 0; n < random.nextInt(Common.ROAD_NUM); n++) {
 			int roadId = roadIdArray[random.nextInt(roadIdArray.length)];
