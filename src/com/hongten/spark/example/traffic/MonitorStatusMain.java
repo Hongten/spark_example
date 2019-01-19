@@ -1,3 +1,8 @@
+/**
+ * Big Data Example  
+ * Mail: hontenzone@foxmail.com 
+ * Blog: http://www.cnblogs.com/hongten
+ */
 package com.hongten.spark.example.traffic;
 
 import java.util.ArrayList;
@@ -31,6 +36,7 @@ import com.hongten.spark.example.traffic.datagenerate.DataLoad;
  * 需求： 统计分析监控点和摄像头的状态（正常工作/异常）
  * 
  * @author Hongten
+ * @created 20 Jan, 2019
  */
 public class MonitorStatusMain {
 

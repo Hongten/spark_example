@@ -1,7 +1,16 @@
+/**
+ * Big Data Example  
+ * Mail: hontenzone@foxmail.com 
+ * Blog: http://www.cnblogs.com/hongten
+ */
 package com.hongten.spark.example.traffic.datagenerate.vo;
 
 import java.io.Serializable;
 
+/**
+ * @author Hongten
+ * @created 20 Jan, 2019
+ */
 public class VehicleLogVO implements Serializable {
 
 	private static final long serialVersionUID = -7858585505355892518L;

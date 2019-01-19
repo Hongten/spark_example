@@ -1,3 +1,8 @@
+/**
+ * Big Data Example  
+ * Mail: hontenzone@foxmail.com 
+ * Blog: http://www.cnblogs.com/hongten
+ */
 package com.hongten.spark.example.traffic.datagenerate;
 
 import java.io.File;
@@ -58,6 +63,7 @@ import com.hongten.spark.example.traffic.datagenerate.vo.VehicleLogVO;
  * 记录时间： 16/01/2019 10:20:30 
  * 
  * @author Hongten
+ * @created 20 Jan, 2019
  */
 public class DataGenerate implements DataLoad, Serializable{
 	

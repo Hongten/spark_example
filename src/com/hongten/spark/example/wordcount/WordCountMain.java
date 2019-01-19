@@ -1,3 +1,8 @@
+/**
+ * Big Data Example  
+ * Mail: hontenzone@foxmail.com 
+ * Blog: http://www.cnblogs.com/hongten
+ */
 package com.hongten.spark.example.wordcount;
 
 import java.util.Arrays;
@@ -21,6 +26,7 @@ import scala.Tuple2;
  * @useage: WordCountMain
  * 
  * @author Hongten
+ * @created 20 Jan, 2019
  */
 public class WordCountMain {
 

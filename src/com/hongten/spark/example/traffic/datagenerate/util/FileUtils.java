@@ -1,3 +1,8 @@
+/**
+ * Big Data Example  
+ * Mail: hontenzone@foxmail.com 
+ * Blog: http://www.cnblogs.com/hongten
+ */
 package com.hongten.spark.example.traffic.datagenerate.util;
 
 import java.io.File;
@@ -11,6 +16,10 @@ import org.apache.log4j.Logger;
 
 import com.hongten.spark.example.traffic.datagenerate.Common;
 
+/**
+ * @author Hongten
+ * @created 20 Jan, 2019
+ */
 public class FileUtils implements Serializable {
 
 	static final Logger logger = Logger.getLogger(FileUtils.class);

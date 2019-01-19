@@ -1,3 +1,8 @@
+/**
+ * Big Data Example  
+ * Mail: hontenzone@foxmail.com 
+ * Blog: http://www.cnblogs.com/hongten
+ */
 package com.hongten.spark.example.traffic.datagenerate;
 
 import java.util.List;
@@ -6,7 +11,11 @@ import java.util.concurrent.Callable;
 
 import com.hongten.spark.example.traffic.datagenerate.util.StringUtils;
 
-class GenerateVehicleLog implements Callable<String>{
+/**
+ * @author Hongten
+ * @created 20 Jan, 2019
+ */
+public class GenerateVehicleLog implements Callable<String>{
 
 	StringBuffer contentSb;
 	String date;
