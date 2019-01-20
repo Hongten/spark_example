@@ -14,7 +14,7 @@ import org.apache.spark.sql.SQLContext;
  */
 public interface DataLoad {
 
-	public void dataLoadFromFile(JavaSparkContext jsc, SQLContext sqlContext);
+	public void dataLoadFromFile(JavaSparkContext jsc, SQLContext sqlContext, boolean loadRoadMonitorAndCameraData);
 
-	public void loadDataFromAutoGenerate(JavaSparkContext jsc, SQLContext sqlContext);
+	public void loadDataFromAutoGenerate(JavaSparkContext jsc, SQLContext sqlContext, boolean loadRoadMonitorAndCameraData);
 }

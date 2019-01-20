@@ -268,7 +268,7 @@ public class MonitorStatusMain {
 	}
 
 	private static void loadData(JavaSparkContext jsc, SQLContext sqlContext) {
-		DataLoadUtils.dataLoad(jsc, sqlContext);
+		DataLoadUtils.dataLoad(jsc, sqlContext, true);
 	}
 
 }

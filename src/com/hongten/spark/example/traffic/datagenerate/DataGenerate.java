@@ -80,21 +80,23 @@ public class DataGenerate implements DataLoad, Serializable{
 	}
 	
 	@Override
-	public void dataLoadFromFile(JavaSparkContext jsc, SQLContext sqlContext) {
+	public void dataLoadFromFile(JavaSparkContext jsc, SQLContext sqlContext, boolean loadRoadMonitorAndCameraData) {
 		File file = new File(Common.VEHICLE_LOG);
 		if (file.exists() && !isGenerateFile) {
-			loadRoadMonitorAndCameraDataFromFile(jsc, sqlContext);
+			if(loadRoadMonitorAndCameraData){
+				loadRoadMonitorAndCameraDataFromFile(jsc, sqlContext);
+			}
 			loadVehicleLogDataFromFile(jsc, sqlContext);
 		} else {
 			// 如果文件不存在，那么就在载入data的同时，把data写入到文件中，供下次使用
 			isGenerateFile = true;
-			loadDataFromAutoGenerate(jsc, sqlContext);
+			loadDataFromAutoGenerate(jsc, sqlContext, loadRoadMonitorAndCameraData);
 		}
 	}
 	
 	@Override
-	public void loadDataFromAutoGenerate(JavaSparkContext jsc, SQLContext sqlContext) {
-		init(jsc, sqlContext);
+	public void loadDataFromAutoGenerate(JavaSparkContext jsc, SQLContext sqlContext, boolean loadRoadMonitorAndCameraData) {
+		init(jsc, sqlContext, loadRoadMonitorAndCameraData);
 		generateData(jsc, sqlContext);
 	}
 
@@ -139,14 +141,14 @@ public class DataGenerate implements DataLoad, Serializable{
 		//sqlContext.sql("select count(*) from " + Common.T_ROAD_MONITOR_CAMERA_RELATIONSHIP).show();
 	}
 
-	public void init(JavaSparkContext jsc, SQLContext sqlContext) {
+	public void init(JavaSparkContext jsc, SQLContext sqlContext, boolean loadRoadMonitorAndCameraData) {
 		// create files
 		if (isGenerateFile) {
 			FileUtils.createFile(Common.VEHICLE_LOG);
 			FileUtils.createFile(Common.ROAD_MONITOR_CAMERA_RELATIONSHIP);
 			FileUtils.createFile(Common.ERROR_ROAD_IDS);
 		}
-		generateRoadIds(jsc, sqlContext);
+		generateRoadIds(jsc, sqlContext, loadRoadMonitorAndCameraData);
 	}
 
 	/**
@@ -154,7 +156,7 @@ public class DataGenerate implements DataLoad, Serializable{
 	 * 监控： 20001-20002 20003-20004 
 	 * 摄像头： 40001-40002-40003-40004 40005-40006-40007-40008
 	 */
-	public void generateRoadIds(JavaSparkContext jsc, SQLContext sqlContext) {
+	public void generateRoadIds(JavaSparkContext jsc, SQLContext sqlContext, boolean loadRoadMonitorAndCameraData) {
 		List<Row> dataList = new ArrayList<Row>();
 		StringBuilder readMonitorCameraRelationship = null;
 		if (isGenerateFile) {
@@ -176,21 +178,27 @@ public class DataGenerate implements DataLoad, Serializable{
 			if (isGenerateFile) {
 				roadMonitorAndCameraRelationshipData(readMonitorCameraRelationship, roadId, monitorB, monitorA, cameraAB, cameraAA, cameraBB, cameraBA);
 			}
-			dataList.add(RowFactory.create(roadId+Common.EMPTY, monitorA+Common.EMPTY, cameraAA+Common.EMPTY));
-			dataList.add(RowFactory.create(roadId+Common.EMPTY, monitorA+Common.EMPTY, cameraAB+Common.EMPTY));
-			dataList.add(RowFactory.create(roadId+Common.EMPTY, monitorB+Common.EMPTY, cameraBA+Common.EMPTY));
-			dataList.add(RowFactory.create(roadId+Common.EMPTY, monitorB+Common.EMPTY, cameraBB+Common.EMPTY));
+			if (loadRoadMonitorAndCameraData) {
+				dataList.add(RowFactory.create(roadId + Common.EMPTY, monitorA + Common.EMPTY, cameraAA + Common.EMPTY));
+				dataList.add(RowFactory.create(roadId + Common.EMPTY, monitorA + Common.EMPTY, cameraAB + Common.EMPTY));
+				dataList.add(RowFactory.create(roadId + Common.EMPTY, monitorB + Common.EMPTY, cameraBA + Common.EMPTY));
+				dataList.add(RowFactory.create(roadId + Common.EMPTY, monitorB + Common.EMPTY, cameraBB + Common.EMPTY));
+			}
 		}
 		if (isGenerateFile) {
 			saveData(Common.ROAD_MONITOR_CAMERA_RELATIONSHIP, readMonitorCameraRelationship.toString());
 		}
 
-		StructType roadMonitorAndCameraSctrucTyps = DataTypes.createStructType(Arrays.asList(DataTypes.createStructField(Common.ROAD_ID, DataTypes.StringType, true), DataTypes.createStructField(Common.MONITOR_ID, DataTypes.StringType, true), DataTypes.createStructField(Common.CAMERA_ID, DataTypes.StringType, true)));
+		if (loadRoadMonitorAndCameraData) {
+			StructType roadMonitorAndCameraSctrucTyps = DataTypes.createStructType(Arrays.asList(DataTypes.createStructField(Common.ROAD_ID, DataTypes.StringType, true), DataTypes.createStructField(Common.MONITOR_ID, DataTypes.StringType, true), DataTypes.createStructField(Common.CAMERA_ID, DataTypes.StringType, true)));
 
-		JavaRDD<Row> roadMonitorAndCameraRDD = jsc.parallelize(dataList);
-		DataFrame roadMonitorAndCameraDataFrame = sqlContext.createDataFrame(roadMonitorAndCameraRDD, roadMonitorAndCameraSctrucTyps);
-		roadMonitorAndCameraDataFrame.registerTempTable(Common.T_ROAD_MONITOR_CAMERA_RELATIONSHIP);
-		logger.info("Finished load Road Monitor and Camera relationship data! Total records : " + (Common.ROAD_NUM * 4));
+			JavaRDD<Row> roadMonitorAndCameraRDD = jsc.parallelize(dataList);
+			DataFrame roadMonitorAndCameraDataFrame = sqlContext.createDataFrame(roadMonitorAndCameraRDD, roadMonitorAndCameraSctrucTyps);
+			roadMonitorAndCameraDataFrame.registerTempTable(Common.T_ROAD_MONITOR_CAMERA_RELATIONSHIP);
+			logger.info("Finished load Road Monitor and Camera relationship data! Total records : " + (Common.ROAD_NUM * 4));
+		} else {
+			dataList = null;
+		}
 	}
 
 	public void generateData(JavaSparkContext jsc, SQLContext sqlContext) {

@@ -17,9 +17,9 @@ import com.hongten.spark.example.traffic.datagenerate.DataLoad;
  */
 public class DataLoadUtils {
 
-	public static void dataLoad(JavaSparkContext jsc, SQLContext sqlContext) {
+	public static void dataLoad(JavaSparkContext jsc, SQLContext sqlContext, boolean loadRoadMonitorAndCameraData) {
 		// this data will be auto-generated when loading
 		DataLoad dataLoad = new DataGenerate(false);
-		dataLoad.dataLoadFromFile(jsc, sqlContext);
+		dataLoad.dataLoadFromFile(jsc, sqlContext, loadRoadMonitorAndCameraData);
 	}
 }
