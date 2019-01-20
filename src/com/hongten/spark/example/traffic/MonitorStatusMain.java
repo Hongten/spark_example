@@ -5,6 +5,7 @@
  */
 package com.hongten.spark.example.traffic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -37,18 +38,21 @@ import com.hongten.spark.example.traffic.datagenerate.util.DataLoadUtils;
  * @author Hongten
  * @created 20 Jan, 2019
  */
-public class MonitorStatusMain {
+public class MonitorStatusMain implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	static final Logger logger = Logger.getLogger(MonitorStatusMain.class);
 
 	public static void main(String[] args) {
 		long begin = System.currentTimeMillis();
-		processMonitorStatus();
+		MonitorStatusMain monitorStatusMain = new MonitorStatusMain();
+		monitorStatusMain.processMonitorStatus();
 		long end = System.currentTimeMillis();
 		logger.info("Finished Task. Total: " + (end - begin) + " ms");
 	}
 
-	public static void processMonitorStatus() {
+	public void processMonitorStatus() {
 		SparkConf conf = new SparkConf();
 		conf.setMaster(Common.MASTER_NAME).setAppName(Common.APP_NAME_MONITOR_STATUS);
 
@@ -73,7 +77,7 @@ public class MonitorStatusMain {
 		jsc.stop();
 	}
 
-	private static JavaPairRDD<String, List<String>> roadMonitorAndCameraDataProcess(SQLContext sqlContext) {
+	private JavaPairRDD<String, List<String>> roadMonitorAndCameraDataProcess(SQLContext sqlContext) {
 		//生成对应的javaRDD
 		JavaRDD<Row> roadMonitorAndCameraRDD = sqlContext.sql("select roadId, monitorId,cameraId from " + Common.T_ROAD_MONITOR_CAMERA_RELATIONSHIP).javaRDD();
 		//把查询出来的一条一条数据组装成<monitor_id, Row>形式
@@ -113,7 +117,7 @@ public class MonitorStatusMain {
 	}
 
 	//这里的处理方式和roadMonitorAndCameraDataProcess()方法类似
-	private static JavaPairRDD<String, Set<String>> vehicleLogDataProcess(SQLContext sqlContext) {
+	private JavaPairRDD<String, Set<String>> vehicleLogDataProcess(SQLContext sqlContext) {
 		//only query monitor_id and camera_id
 		JavaRDD<Row> vehicleLogRDD = sqlContext.sql("select monitorId,cameraId from " + Common.T_VEHICLE_LOG).javaRDD();
 		JavaPairRDD<String, Row> vehicleLogMonitorAndRowRDD = vehicleLogRDD.mapToPair(new PairFunction<Row, String, Row>() {
@@ -157,7 +161,7 @@ public class MonitorStatusMain {
 	//即同一个monitor_id,拿主表的List<camera_id>记录和vehicle log中的Set<camera_id>记录进比较
 	//vehicle log中的Set<camera_id>可能全都能匹配主表里面的List<camera_id> --> 说明该monitor_id工作正常
 	//vehicle log中的Set<camera_id>可能不全都能匹配主表里面的List<camera_id> --> 说明该monitor_id异常
-	private static JavaPairRDD<List<String>, List<String>> getLeftOuterJoinResultRDD(JavaPairRDD<String, List<String>> monitorAndCameraIdListRDD, JavaPairRDD<String, Set<String>> vehicleLogMonitorAndCameraIdSetRDD) {
+	private JavaPairRDD<List<String>, List<String>> getLeftOuterJoinResultRDD(JavaPairRDD<String, List<String>> monitorAndCameraIdListRDD, JavaPairRDD<String, Set<String>> vehicleLogMonitorAndCameraIdSetRDD) {
 		
 		//left outer join
 		JavaPairRDD<String, Tuple2<List<String>, Optional<Set<String>>>> leftOuterJoinRDD = monitorAndCameraIdListRDD.leftOuterJoin(vehicleLogMonitorAndCameraIdSetRDD);
@@ -241,7 +245,7 @@ public class MonitorStatusMain {
 		Error camera id : 40235
 		Error camera id : 40236
 	 */
-	private static void printMonitorStatus(JavaPairRDD<List<String>, List<String>> leftOuterJoinResultRDD) {
+	private void printMonitorStatus(JavaPairRDD<List<String>, List<String>> leftOuterJoinResultRDD) {
 		leftOuterJoinResultRDD.foreach(new VoidFunction<Tuple2<List<String>, List<String>>>() {
 			private static final long serialVersionUID = 1L;
 
@@ -267,7 +271,9 @@ public class MonitorStatusMain {
 		});
 	}
 
-	private static void loadData(JavaSparkContext jsc, SQLContext sqlContext) {
+	private void loadData(JavaSparkContext jsc, SQLContext sqlContext) {
+		//load Road Monitor and Camera data
+		//load Vehicle Log data
 		DataLoadUtils.dataLoad(jsc, sqlContext, true);
 	}
 
