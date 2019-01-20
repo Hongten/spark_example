@@ -27,8 +27,7 @@ import scala.Tuple2;
 
 import com.google.common.base.Optional;
 import com.hongten.spark.example.traffic.datagenerate.Common;
-import com.hongten.spark.example.traffic.datagenerate.DataGenerate;
-import com.hongten.spark.example.traffic.datagenerate.DataLoad;
+import com.hongten.spark.example.traffic.datagenerate.util.DataLoadUtils;
 
 /**
  * 当一辆车在道路上面行驶的时候，道路上面的监控点里面的摄像头就会对车进行数据采集。
@@ -70,6 +69,8 @@ public class MonitorStatusMain {
 
 		// print monitor status
 		printMonitorStatus(leftOuterJoinResultRDD);
+		
+		jsc.stop();
 	}
 
 	private static JavaPairRDD<String, List<String>> roadMonitorAndCameraDataProcess(SQLContext sqlContext) {
@@ -267,9 +268,7 @@ public class MonitorStatusMain {
 	}
 
 	private static void loadData(JavaSparkContext jsc, SQLContext sqlContext) {
-		// this data will be auto-generated when loading
-		DataLoad dataLoad = new DataGenerate(false);
-		dataLoad.dataLoadFromFile(jsc, sqlContext);
+		DataLoadUtils.dataLoad(jsc, sqlContext);
 	}
 
 }

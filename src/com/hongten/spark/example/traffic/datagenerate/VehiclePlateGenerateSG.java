@@ -28,7 +28,7 @@ import java.util.Random;
  * @author Hongten
  * @created 20 Jan, 2019
  */
-class VehiclePlateGenerateSG implements Serializable {
+public class VehiclePlateGenerateSG implements Serializable {
 
 	private static final long serialVersionUID = -8006144823705880339L;
 
