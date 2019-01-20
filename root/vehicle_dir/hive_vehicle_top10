@@ -1,0 +1,191 @@
+----Hive+Sqoop+Mysql整合
+--当一辆车在道路上面行驶的时候，道路上面的监控点里面的摄像头就会对车进行数据采集。
+--我们对采集的数据进行分析，处理。
+--需求: 在所有监控点里面，通过车辆最多的10个监控点是什么？
+
+--
+
+cd /root/vehicle_dir/
+
+vi hive_vehicle_top10.sql
+
+
+drop table IF EXISTS t_top10_monitor;
+
+CREATE TABLE t_top10_monitor(
+monitor_id string ,
+vehicleNum int
+)ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n';
+
+from t_vehicle_log
+insert into table t_top10_monitor
+select monitor_id, count(vehicle_plate) vehicleNum group by monitor_id order by vehicleNum desc limit 10;
+
+
+drop table IF EXISTS t_top10_monitor_details;
+
+--top10监控点的车辆具体信息
+CREATE TABLE t_top10_monitor_details(
+date_time string ,
+vehicle_plate string ,
+vehicle_speed int ,
+road_id string ,
+monitor_id string ,
+camera_id string
+)ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n';
+
+
+from t_vehicle_log t1
+insert into table t_top10_monitor_details
+select t1.date_time,t1.vehicle_plate,t1.vehicle_speed,t1.road_id,t1.monitor_id,t1.camera_id 
+where t1.monitor_id in (select t2.monitor_id from t_top10_monitor t2);
+
+:wq
+
+
+
+cd /root/vehicle_dir/
+
+vi hive_to_mysql_for_top10_monitor
+
+export
+--connect
+jdbc:mysql://node1:3306/sqoop_db
+--username
+root
+--password
+'!QAZ2wsx3edc'
+--table
+t_hive_to_mysql_for_top10_monitor
+-m
+1
+--columns
+monitor_id,vehicle_num
+--fields-terminated-by
+'\t'
+--export-dir
+/user/hive/warehouse/t_top10_monitor/
+
+：wq
+
+
+
+vi hive_to_mysql_for_top10_details
+
+export
+--connect
+jdbc:mysql://node1:3306/sqoop_db
+--username
+root
+--password
+'!QAZ2wsx3edc'
+--table
+t_hive_to_mysql_for_top10_details
+-m
+1
+--columns
+date_time,vehicle_plate,vehicle_speed,road_id,monitor_id,camera_id
+--fields-terminated-by
+'\t'
+--export-dir
+/user/hive/warehouse/t_top10_monitor_details/
+
+：wq
+
+
+
+
+--在mysql里面创建表
+mysql -u root -p 
+!QAZ2wsx3edc
+use sqoop_db;
+
+--如果有则删除
+DROP TABLE IF EXISTS t_hive_to_mysql_for_top10_monitor;
+
+CREATE TABLE t_hive_to_mysql_for_top10_monitor (monitor_id VARCHAR(5), vehicle_num INT);
+
+DROP TABLE IF EXISTS t_hive_to_mysql_for_top10_details;
+
+CREATE TABLE t_hive_to_mysql_for_top10_details (date_time VARCHAR(20),vehicle_plate VARCHAR(9),vehicle_speed INT,road_id VARCHAR(5),monitor_id VARCHAR(5),camera_id VARCHAR(5));
+
+
+
+
+--编辑自动化执行脚本
+
+cd /root/vehicle_dir/
+
+vi hive_vehicle_top10.sh
+
+echo 'begin job.'
+cd /home/hive/bin
+
+echo 'processing........ hive data .......................'
+
+./hive -f /root/vehicle_dir/hive_vehicle_top10.sql
+
+echo 'export data into mysql'
+
+echo 'processing........ hive to mysql for top10 .......................'
+
+sqoop --options-file /root/vehicle_dir/hive_to_mysql_for_top10_monitor
+
+echo 'processing........ hive to mysql for top10 details.......................'
+sqoop --options-file /root/vehicle_dir/hive_to_mysql_for_top10_details
+
+echo 'Done.........................'
+
+
+
+:wq
+
+--添加执行权限
+
+chmod +x hive_vehicle_top10.sh
+
+
+--执行
+
+./hive_vehicle_top10.sh
+
+
+
+--结果
+mysql> select monitor_id,count(vehicle_plate) vehicleNum from t_hive_to_mysql_for_top10_details group by monitor_id order by vehicleNum desc;
++------------+------------+
+| monitor_id | vehicleNum |
++------------+------------+
+| 20353      |       6107 |
+| 20541      |       6063 |
+| 20177      |       6006 |
+| 20089      |       5983 |
+| 20129      |       5858 |
+| 20147      |       3159 |
+| 20003      |       3146 |
+| 20638      |       3119 |
+| 20659      |       3117 |
+| 20531      |       3113 |
++------------+------------+
+10 rows in set (0.09 sec)
+
+mysql> select * from t_hive_to_mysql_for_top10_monitor;
++------------+-------------+
+| monitor_id | vehicle_num |
++------------+-------------+
+| 20353      |        6107 |
+| 20541      |        6063 |
+| 20177      |        6006 |
+| 20089      |        5983 |
+| 20129      |        5858 |
+| 20147      |        3159 |
+| 20003      |        3146 |
+| 20638      |        3119 |
+| 20659      |        3117 |
+| 20531      |        3113 |
++------------+-------------+
+10 rows in set (0.00 sec)
