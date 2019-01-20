@@ -1,6 +1,6 @@
 /**
- * Big Data Example  
- * Mail: hontenzone@foxmail.com 
+ * Spark Example  
+ * Mail: hongtenzone@foxmail.com 
  * Blog: http://www.cnblogs.com/hongten
  */
 package com.hongten.spark.example.traffic.datagenerate.util;
