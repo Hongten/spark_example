@@ -17,16 +17,16 @@ public class VehicleLogVO implements Serializable {
 
 	private String dataTime;
 	private String vehiclePlate;
-	private int vechicleSpeed;
+	private int vehicleSpeed;
 	private String roadId;
 	private String monitorId;
 	private String cameraId;
 
-	public VehicleLogVO(String dataTime, String vehiclePlate, int vechicleSpeed, String roadId, String monitorId, String cameraId) {
+	public VehicleLogVO(String dataTime, String vehiclePlate, int vehicleSpeed, String roadId, String monitorId, String cameraId) {
 		super();
 		this.dataTime = dataTime;
 		this.vehiclePlate = vehiclePlate;
-		this.vechicleSpeed = vechicleSpeed;
+		this.vehicleSpeed = vehicleSpeed;
 		this.roadId = roadId;
 		this.monitorId = monitorId;
 		this.cameraId = cameraId;
@@ -55,12 +55,12 @@ public class VehicleLogVO implements Serializable {
 		this.vehiclePlate = vehiclePlate;
 	}
 
-	public int getVechicleSpeed() {
-		return vechicleSpeed;
+	public int getVehicleSpeed() {
+		return vehicleSpeed;
 	}
 
-	public void setVechicleSpeed(int vechicleSpeed) {
-		this.vechicleSpeed = vechicleSpeed;
+	public void setVehicleSpeed(int vehicleSpeed) {
+		this.vehicleSpeed = vehicleSpeed;
 	}
 
 	public String getRoadId() {

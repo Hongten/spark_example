@@ -36,12 +36,13 @@ public class Common implements Serializable {
 	// 异常路数量
 	public static final int ROAD_ERROR_NUM = 4;
 	// 最大车速
-	public static final int MAX_SPEED = 300;
+	public static final int MAX_SPEED = 250;
 	
 	
 	public static final String MASTER_NAME = "local";
 	public static final String APP_NAME_MONITOR_STATUS = "Monitor Status";
 	public static final String APP_NAME_TOP10_MONITOR = "Top 10 Monitor";
+	public static final String APP_NAME_TOP10_OVER_MAX_SPEEDMONITOR = "Top 10 Over Max Speed Monitor";
 	
 	public static final String ROAD_ID = "roadId";
 	public static final String MONITOR_ID = "monitorId";
