@@ -47,6 +47,7 @@ public class Common implements Serializable {
 	public static final String APP_NAME_TOP10_MONITOR = "Top 10 Monitor";
 	public static final String APP_NAME_TOP10_OVER_SPEED_MONITOR = "Top 10 Over Speed Monitor";
 	public static final String APP_NAME_TOP10_OVER_SPEED_VEHICLE_NUMBER = "Top 10 Over Speed Vehicle Number";
+	public static final String APP_NAME_TOP10_VEHICLE_NUMBER_HOUR = "Top 10 Vehicle Number Hour";
 	
 	public static final String ROAD_ID = "roadId";
 	public static final String MONITOR_ID = "monitorId";

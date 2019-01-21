@@ -64,6 +64,8 @@ public class Top10OverSpeedMonitorMain implements Serializable{
 		
 		//print result
 		printTop10OverMaxSpeedMonitorResult(top10OverMaxSpeedMonitor);
+		
+		jsc.stop();
 	}
 
 	private JavaPairRDD<Integer, String> processVehicleLogRDD(SQLContext sqlContext) {

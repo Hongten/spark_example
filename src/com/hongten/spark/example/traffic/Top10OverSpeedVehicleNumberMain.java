@@ -57,7 +57,8 @@ public class Top10OverSpeedVehicleNumberMain implements Serializable {
 
 		// print result
 		printResult(monitorAndVehicleNumberRDD);
-
+		
+		jsc.stop();
 	}
 
 	/**
