@@ -1,0 +1,116 @@
+----Hive+Sqoop+Mysql整合
+--当一辆车在道路上面行驶的时候，道路上面的监控点里面的摄像头就会对车进行数据采集。
+--我们对采集的数据进行分析，处理。
+--需求: 在所有监控点里面，超速（max speed: 250）车辆最多的10个监控点是什么？
+
+cd /root/vehicle_dir/
+
+vi hive_vehicle_top10_speed.sql
+
+drop table if exists t_top10_speed_monitor;
+
+create table t_top10_speed_monitor(
+monitor_id string,
+vehicleNum int
+)ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n';
+
+
+from t_vehicle_log
+insert into table t_top10_speed_monitor
+select monitor_id, count(vehicle_plate) vehicleNum where vehicle_speed >= 250 group by monitor_id order by vehicleNum desc limit 10;
+
+:wq
+
+
+--编写sqoop配置文件
+vi hive_to_mysql_for_top10_speed
+
+export
+--connect
+jdbc:mysql://node1:3306/sqoop_db
+--username
+root
+--password
+'!QAZ2wsx3edc'
+--table
+t_hive_to_mysql_for_top10_speed
+-m
+1
+--columns
+monitor_id,vehicle_num
+--fields-terminated-by
+'\t'
+--export-dir
+/user/hive/warehouse/t_top10_speed_monitor/
+
+
+:wq
+
+
+
+--在mysql里面创建表
+mysql -u root -p 
+!QAZ2wsx3edc
+use sqoop_db;
+
+--如果有则删除
+DROP TABLE IF EXISTS t_hive_to_mysql_for_top10_speed;
+
+CREATE TABLE t_hive_to_mysql_for_top10_speed (monitor_id VARCHAR(5), vehicle_num INT);
+
+
+
+--编辑自动化执行脚本
+
+cd /root/vehicle_dir/
+
+vi hive_vehicle_top10_speed.sh
+
+echo 'begin job.'
+cd /home/hive/bin
+
+echo 'processing........ hive data .......................'
+
+./hive -f /root/vehicle_dir/hive_vehicle_top10_speed.sql
+
+echo 'export data into mysql'
+
+echo 'processing........ hive to mysql for top10 .......................'
+
+sqoop --options-file /root/vehicle_dir/hive_to_mysql_for_top10_speed
+
+echo 'Done.........................'
+
+
+
+:wq
+
+--添加执行权限
+
+chmod +x hive_vehicle_top10_speed.sh
+
+
+--执行
+
+./hive_vehicle_top10_speed.sh
+
+
+--效果：
+mysql> select * from t_hive_to_mysql_for_top10_speed;
++------------+-------------+
+| monitor_id | vehicle_num |
++------------+-------------+
+| 20353      |        1053 |
+| 20129      |        1037 |
+| 20089      |        1035 |
+| 20541      |        1008 |
+| 20177      |        1005 |
+| 20678      |         582 |
+| 20006      |         573 |
+| 20304      |         571 |
+| 20122      |         569 |
+| 20074      |         567 |
++------------+-------------+
+10 rows in set (0.00 sec)

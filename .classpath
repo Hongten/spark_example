@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="D:/hadoop/scala_workspace/TrafficTeach/libs/fastutil-7.0.11.jar"/>
 	<classpathentry kind="lib" path="D:/hadoop/scala_workspace/TrafficTeach/libs/kafka_2.10-0.8.2.1.jar"/>
 	<classpathentry kind="lib" path="D:/hadoop/scala_workspace/TrafficTeach/libs/mysql-connector-java-5.1.6.jar"/>
-	<classpathentry kind="lib" path="D:/hadoop/scala_workspace/TrafficTeach/libs/spark-assembly-1.6.0-hadoop2.4.0.jar"/>
+	<classpathentry kind="lib" path="D:/hadoop/scala_workspace/TrafficTeach/libs/spark-assembly-1.6.0-hadoop2.4.0.jar" sourcepath="D:/hadoop/scala_workspace/TrafficTeach/libs/spark-assembly-1.6.0-hadoop2.4.0.jar"/>
 	<classpathentry kind="lib" path="D:/hadoop/scala_workspace/TrafficTeach/libs/spark-examples-1.6.0-hadoop2.6.0.jar"/>
 	<classpathentry kind="lib" path="D:/hadoop/scala_workspace/SparkStreaming_Kafka_Manage/lib/log4j.jar"/>
 	<classpathentry kind="output" path="bin"/>
