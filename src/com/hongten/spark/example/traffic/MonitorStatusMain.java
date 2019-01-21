@@ -35,6 +35,8 @@ import com.hongten.spark.example.traffic.datagenerate.util.DataLoadUtils;
  * 我们对采集的数据进行分析，处理。
  * 需求： 统计分析监控点和摄像头的状态（正常工作/异常）
  * 
+ * 目的：如果摄像头异常，那么，就需要对这些摄像头进行维修或者更换。
+ * 
  * @author Hongten
  * @created 20 Jan, 2019
  */

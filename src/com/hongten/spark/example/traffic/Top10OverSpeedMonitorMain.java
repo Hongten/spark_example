@@ -25,26 +25,28 @@ import com.hongten.spark.example.traffic.datagenerate.util.DataLoadUtils;
 /**
  * 需求: 在所有监控点里面，超速（max speed: 250）车辆中车速最大的10个监控点是什么？
  * 
+ * 目的： 超速行驶很危险，需要对这些监控点所在的路段采取措施，比如设置减速带，加大处罚力度等一系列措施来限制车辆超速。
+ * 
  * @author Hongten
  * @created 20 Jan, 2019
  */
-public class Top10OverMaxSpeedMonitorMain implements Serializable{
+public class Top10OverSpeedMonitorMain implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	static final Logger logger = Logger.getLogger(Top10OverMaxSpeedMonitorMain.class);
+	static final Logger logger = Logger.getLogger(Top10OverSpeedMonitorMain.class);
 	
 	public static void main(String[] args) {
 		long begin = System.currentTimeMillis();
-		Top10OverMaxSpeedMonitorMain top10OverMaxSpeedMonitorMain = new Top10OverMaxSpeedMonitorMain();
-		top10OverMaxSpeedMonitorMain.processTop10OverMaxSpeedMonitor();
+		Top10OverSpeedMonitorMain top10OverSpeedMonitorMain = new Top10OverSpeedMonitorMain();
+		top10OverSpeedMonitorMain.processTop10OverSpeedMonitor();
 		long end = System.currentTimeMillis();
 		logger.info("Finished Task. Total: " + (end - begin) + " ms");
 	}
 
-	private void processTop10OverMaxSpeedMonitor() {
+	private void processTop10OverSpeedMonitor() {
 		SparkConf conf = new SparkConf();
-		conf.setMaster(Common.MASTER_NAME).setAppName(Common.APP_NAME_TOP10_OVER_MAX_SPEEDMONITOR);
+		conf.setMaster(Common.MASTER_NAME).setAppName(Common.APP_NAME_TOP10_OVER_SPEED_MONITOR);
 		JavaSparkContext jsc = new JavaSparkContext(conf);
 		SQLContext sqlContext = new SQLContext(jsc);
 		// load data
@@ -57,6 +59,7 @@ public class Top10OverMaxSpeedMonitorMain implements Serializable{
 		JavaPairRDD<Integer, String> vehicleSpeedAndMonitorSortByKeyRDD = vehicleSpeedAndMonitorRDD.sortByKey(false);
 		
 		//get top 10 result
+		//如果我们想看到更多的数据，我们可以调节这里的大小，比如：take(100)
 		List<Tuple2<Integer, String>> top10OverMaxSpeedMonitor = vehicleSpeedAndMonitorSortByKeyRDD.take(10);
 		
 		//print result
@@ -64,8 +67,12 @@ public class Top10OverMaxSpeedMonitorMain implements Serializable{
 	}
 
 	private JavaPairRDD<Integer, String> processVehicleLogRDD(SQLContext sqlContext) {
-		//query from t_vehicle_log
-		JavaRDD<Row> vehicleLogRDD = sqlContext.sql("select monitorId,vehicleSpeed from " + Common.T_VEHICLE_LOG + " where vehicleSpeed > " + Common.MAX_SPEED).javaRDD();
+		// query from t_vehicle_log
+		JavaRDD<Row> vehicleLogRDD = sqlContext.sql("select monitorId,vehicleSpeed from " + Common.T_VEHICLE_LOG + " where vehicleSpeed > " + Common.OVER_SPEED).javaRDD();
+		// 如果使用下面的SQL，那么就可以直接print method了
+		// 这里为了演示，如果不使用sql，我们应该怎样操作
+		// 如果想知道sql的操作，可以参考 - com.hongten.spark.example.traffic.Top10OverSpeedVehicleNumberMain
+		// JavaRDD<Row> vehicleLogRDD = sqlContext.sql("select monitorId,vehicleSpeed from " + Common.T_VEHICLE_LOG + " where vehicleSpeed > " + Common.OVER_SPEED + " order by vehicleSpeed desc limit 10").javaRDD();
 		return vehicleSppedAndMonitorRDD(vehicleLogRDD);
 	}
 

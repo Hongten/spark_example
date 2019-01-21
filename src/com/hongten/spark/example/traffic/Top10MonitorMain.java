@@ -27,6 +27,8 @@ import com.hongten.spark.example.traffic.datagenerate.util.DataLoadUtils;
 /**
  * 需求: 在所有监控点里面，通过车辆最多的10个监控点是什么？
  * 
+ * 目的： 可以对这些监控点所在的路段采取一些措施来缓解车流量。
+ * 
  * @author Hongten
  * @created 20 Jan, 2019
  */
