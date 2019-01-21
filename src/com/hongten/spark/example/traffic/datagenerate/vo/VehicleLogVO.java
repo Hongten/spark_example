@@ -15,16 +15,16 @@ public class VehicleLogVO implements Serializable {
 
 	private static final long serialVersionUID = -7858585505355892518L;
 
-	private String dataTime;
+	private String dateTime;
 	private String vehiclePlate;
 	private int vehicleSpeed;
 	private String roadId;
 	private String monitorId;
 	private String cameraId;
 
-	public VehicleLogVO(String dataTime, String vehiclePlate, int vehicleSpeed, String roadId, String monitorId, String cameraId) {
+	public VehicleLogVO(String dateTime, String vehiclePlate, int vehicleSpeed, String roadId, String monitorId, String cameraId) {
 		super();
-		this.dataTime = dataTime;
+		this.dateTime = dateTime;
 		this.vehiclePlate = vehiclePlate;
 		this.vehicleSpeed = vehicleSpeed;
 		this.roadId = roadId;
@@ -39,12 +39,12 @@ public class VehicleLogVO implements Serializable {
 		this.cameraId = cameraId;
 	}
 
-	public String getDataTime() {
-		return dataTime;
+	public String getDateTime() {
+		return dateTime;
 	}
 
-	public void setDataTime(String dataTime) {
-		this.dataTime = dataTime;
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public String getVehiclePlate() {
