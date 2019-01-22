@@ -55,7 +55,8 @@ public class Top10TrafficJamMain implements Serializable {
 
 		//print result
 		printResult(monitorAndVehicleNumRDD);
-
+		
+		jsc.stop();
 	}
 
 	/**
