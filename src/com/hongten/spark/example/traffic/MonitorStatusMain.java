@@ -231,21 +231,15 @@ public class MonitorStatusMain implements Serializable{
 	/**
 	 异常监控点id和异常监控点对应的摄像头id
 	 output:
-	 	Error monitor id : 20071
-		Error monitor id : 20074
-		Error monitor id : 20072
-		Error monitor id : 20098
-		Error monitor id : 20118
-		Error camera id : 40141
-		Error camera id : 40142
-		Error camera id : 40147
-		Error camera id : 40148
-		Error camera id : 40143
-		Error camera id : 40144
-		Error camera id : 40195
-		Error camera id : 40196
-		Error camera id : 40235
-		Error camera id : 40236
+	 	Error monitor id : 20010
+		Error monitor id : 20094
+		Error monitor id : 20078
+		Error camera id : 40019
+		Error camera id : 40020
+		Error camera id : 40187
+		Error camera id : 40188
+		Error camera id : 40155
+		Error camera id : 40156
 	 */
 	private void printMonitorStatus(JavaPairRDD<List<String>, List<String>> leftOuterJoinResultRDD) {
 		leftOuterJoinResultRDD.foreach(new VoidFunction<Tuple2<List<String>, List<String>>>() {

@@ -63,16 +63,16 @@ public class Top10OverSpeedVehicleNumberMain implements Serializable {
 
 	/**
 	output:
-		Top 10 Over Speed Monitor : 20073 , Vehicle Number : 123
-		Top 10 Over Speed Monitor : 20117 , Vehicle Number : 118
-		Top 10 Over Speed Monitor : 20097 , Vehicle Number : 117
-		Top 10 Over Speed Monitor : 20114 , Vehicle Number : 76
-		Top 10 Over Speed Monitor : 20005 , Vehicle Number : 75
-		Top 10 Over Speed Monitor : 20106 , Vehicle Number : 72
-		Top 10 Over Speed Monitor : 20009 , Vehicle Number : 72
-		Top 10 Over Speed Monitor : 20091 , Vehicle Number : 72
-		Top 10 Over Speed Monitor : 20062 , Vehicle Number : 71
-		Top 10 Over Speed Monitor : 20008 , Vehicle Number : 71
+		Top 10 Over Speed Monitor : 20093 , Vehicle Number : 124
+		Top 10 Over Speed Monitor : 20077 , Vehicle Number : 119
+		Top 10 Over Speed Monitor : 20009 , Vehicle Number : 105
+		Top 10 Over Speed Monitor : 20059 , Vehicle Number : 73
+		Top 10 Over Speed Monitor : 20079 , Vehicle Number : 71
+		Top 10 Over Speed Monitor : 20005 , Vehicle Number : 71
+		Top 10 Over Speed Monitor : 20118 , Vehicle Number : 71
+		Top 10 Over Speed Monitor : 20033 , Vehicle Number : 71
+		Top 10 Over Speed Monitor : 20073 , Vehicle Number : 70
+		Top 10 Over Speed Monitor : 20065 , Vehicle Number : 70
 	 */
 	private void printResult(JavaRDD<Row> monitorAndVehicleNumberRDD) {
 		monitorAndVehicleNumberRDD.foreach(new VoidFunction<Row>() {

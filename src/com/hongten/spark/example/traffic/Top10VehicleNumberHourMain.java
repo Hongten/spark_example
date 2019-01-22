@@ -143,16 +143,16 @@ public class Top10VehicleNumberHourMain implements Serializable{
 
 	/**
 	 output:
-	 	Top 10 Hour : 16, Vehicle Number : 1774
-		Top 10 Hour : 19, Vehicle Number : 1743
-		Top 10 Hour : 13, Vehicle Number : 1736
-		Top 10 Hour : 08, Vehicle Number : 1710
-		Top 10 Hour : 09, Vehicle Number : 1686
-		Top 10 Hour : 04, Vehicle Number : 1683
-		Top 10 Hour : 02, Vehicle Number : 1680
-		Top 10 Hour : 03, Vehicle Number : 1669
-		Top 10 Hour : 22, Vehicle Number : 1655
-		Top 10 Hour : 20, Vehicle Number : 1652
+		Top 10 Hour : 03, Vehicle Number : 1797
+		Top 10 Hour : 13, Vehicle Number : 1786
+		Top 10 Hour : 07, Vehicle Number : 1781
+		Top 10 Hour : 09, Vehicle Number : 1776
+		Top 10 Hour : 00, Vehicle Number : 1775
+		Top 10 Hour : 04, Vehicle Number : 1767
+		Top 10 Hour : 14, Vehicle Number : 1766
+		Top 10 Hour : 11, Vehicle Number : 1763
+		Top 10 Hour : 02, Vehicle Number : 1762
+		Top 10 Hour : 17, Vehicle Number : 1762
 	 */
 	private void printResult(JavaPairRDD<Integer, String> vehicleNumAndHourSortByKeyRDD) {
 		List<Tuple2<Integer, String>> top10Result = vehicleNumAndHourSortByKeyRDD.take(10);

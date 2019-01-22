@@ -140,16 +140,16 @@ public class Top10MonitorMain implements Serializable {
 
 	/**
 	output:
-		Top 10 Monitor : 20117, Vehicle Number : 723
-		Top 10 Monitor : 20073, Vehicle Number : 685
-		Top 10 Monitor : 20097, Vehicle Number : 665
-		Top 10 Monitor : 20053, Vehicle Number : 413
-		Top 10 Monitor : 20005, Vehicle Number : 400
-		Top 10 Monitor : 20087, Vehicle Number : 392
-		Top 10 Monitor : 20060, Vehicle Number : 387
-		Top 10 Monitor : 20067, Vehicle Number : 386
-		Top 10 Monitor : 20045, Vehicle Number : 383
-		Top 10 Monitor : 20035, Vehicle Number : 382
+		Top 10 Monitor : 20093, Vehicle Number : 734
+		Top 10 Monitor : 20077, Vehicle Number : 690
+		Top 10 Monitor : 20009, Vehicle Number : 684
+		Top 10 Monitor : 20050, Vehicle Number : 393
+		Top 10 Monitor : 20104, Vehicle Number : 390
+		Top 10 Monitor : 20079, Vehicle Number : 389
+		Top 10 Monitor : 20057, Vehicle Number : 385
+		Top 10 Monitor : 20045, Vehicle Number : 381
+		Top 10 Monitor : 20044, Vehicle Number : 378
+		Top 10 Monitor : 20028, Vehicle Number : 377
 	 */
 	private void printResult(List<Tuple2<Integer, String>> top10List) {
 		if (top10List != null && top10List.size() > 0) {

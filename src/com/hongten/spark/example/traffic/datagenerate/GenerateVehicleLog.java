@@ -77,7 +77,7 @@ public class GenerateVehicleLog implements Callable<String>{
 
 			if (!isAllError) {
 				// 16/01/2019 10:20:30 SCN89000J 124 10002 20004 40007
-				contentSb.append(date).append(Common.BLANK).append(StringUtils.fulfuill(String.valueOf(random.nextInt(25)))).append(Common.COLON).append(StringUtils.fulfuill(String.valueOf(random.nextInt(61)))).append(Common.COLON).append(StringUtils.fulfuill(String.valueOf(random.nextInt(61)))).append(Common.SEPARATOR);
+				contentSb.append(date).append(Common.BLANK).append(StringUtils.fulfuill(String.valueOf(random.nextInt(24)))).append(Common.COLON).append(StringUtils.fulfuill(String.valueOf(random.nextInt(60)))).append(Common.COLON).append(StringUtils.fulfuill(String.valueOf(random.nextInt(60)))).append(Common.SEPARATOR);
 				contentSb.append(vehiclePlate).append(Common.SEPARATOR);
 				contentSb.append((random.nextInt(Common.MAX_SPEED) + 1)).append(Common.SEPARATOR);
 				contentSb.append(roadId).append(Common.SEPARATOR);

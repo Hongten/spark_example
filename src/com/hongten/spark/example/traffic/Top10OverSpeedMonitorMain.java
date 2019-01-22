@@ -97,16 +97,16 @@ public class Top10OverSpeedMonitorMain implements Serializable{
 
 	/**
 	output:
-		Top 10 Over Max Speed Monitor : 20031, Vehicle Speed : 300
-		Top 10 Over Max Speed Monitor : 20015, Vehicle Speed : 300
-		Top 10 Over Max Speed Monitor : 20063, Vehicle Speed : 300
-		Top 10 Over Max Speed Monitor : 20120, Vehicle Speed : 300
-		Top 10 Over Max Speed Monitor : 20049, Vehicle Speed : 300
-		Top 10 Over Max Speed Monitor : 20073, Vehicle Speed : 300
-		Top 10 Over Max Speed Monitor : 20009, Vehicle Speed : 300
-		Top 10 Over Max Speed Monitor : 20032, Vehicle Speed : 300
-		Top 10 Over Max Speed Monitor : 20106, Vehicle Speed : 300
-		Top 10 Over Max Speed Monitor : 20036, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20088, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20024, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20088, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20014, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20111, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20075, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20101, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20056, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20092, Vehicle Speed : 300
+		Top 10 Over Max Speed Monitor : 20101, Vehicle Speed : 300
 	 */
 	private void printTop10OverMaxSpeedMonitorResult(List<Tuple2<Integer, String>> top10OverMaxSpeedMonitor) {
 		if (top10OverMaxSpeedMonitor != null && top10OverMaxSpeedMonitor.size() > 0) {

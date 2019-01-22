@@ -61,16 +61,16 @@ public class Top10TrafficJamMain implements Serializable {
 
 	/**
 	 output:
-	 	Top 10 Traffic Jam Monitor : 20117, Vehicle Number : 32
-		Top 10 Traffic Jam Monitor : 20073, Vehicle Number : 32
-		Top 10 Traffic Jam Monitor : 20097, Vehicle Number : 28
-		Top 10 Traffic Jam Monitor : 20069, Vehicle Number : 28
-		Top 10 Traffic Jam Monitor : 20115, Vehicle Number : 28
-		Top 10 Traffic Jam Monitor : 20106, Vehicle Number : 27
-		Top 10 Traffic Jam Monitor : 20110, Vehicle Number : 26
-		Top 10 Traffic Jam Monitor : 20060, Vehicle Number : 26
-		Top 10 Traffic Jam Monitor : 20025, Vehicle Number : 25
-		Top 10 Traffic Jam Monitor : 20026, Vehicle Number : 24
+		Top 10 Traffic Jam Monitor : 20009, Vehicle Number : 37
+		Top 10 Traffic Jam Monitor : 20039, Vehicle Number : 32
+		Top 10 Traffic Jam Monitor : 20093, Vehicle Number : 28
+		Top 10 Traffic Jam Monitor : 20114, Vehicle Number : 28
+		Top 10 Traffic Jam Monitor : 20100, Vehicle Number : 26
+		Top 10 Traffic Jam Monitor : 20036, Vehicle Number : 26
+		Top 10 Traffic Jam Monitor : 20016, Vehicle Number : 26
+		Top 10 Traffic Jam Monitor : 20077, Vehicle Number : 25
+		Top 10 Traffic Jam Monitor : 20020, Vehicle Number : 25
+		Top 10 Traffic Jam Monitor : 20052, Vehicle Number : 24
 	 */
 	private void printResult(JavaRDD<Row> monitorAndVehicleNumRDD) {
 		monitorAndVehicleNumRDD.foreach(new VoidFunction<Row>() {
