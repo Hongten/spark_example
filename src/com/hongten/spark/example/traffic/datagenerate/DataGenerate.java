@@ -249,7 +249,7 @@ public class DataGenerate implements DataLoad, Serializable{
 							String[] datas = line.split(Common.SEPARATOR);
 							if (datas != null && datas.length == 6) {
 								// date_time vehicle_plate vehicle_speed road_id monitor_id camera_id
-								dataList.add(RowFactory.create(datas[0], datas[1], datas[2], datas[3], datas[4], datas[5]));
+								dataList.add(RowFactory.create(datas[0], datas[1], Integer.valueOf(datas[2]), datas[3], datas[4], datas[5]));
 							}
 						}
 					}
@@ -277,6 +277,7 @@ public class DataGenerate implements DataLoad, Serializable{
 		JavaRDD<Row> vehicleLogRDD = jsc.parallelize(dataList);
 		DataFrame vehicleLogDataFrame = sqlContext.createDataFrame(vehicleLogRDD, vehicleLogStructType);
 		vehicleLogDataFrame.registerTempTable(Common.T_VEHICLE_LOG);
+		
 		logger.info("Finished load Vehicle Log data! Vehicle Log records : " + ((dataList != null && dataList.size() > 0) ? dataList.size(): 0));
 	}
 
