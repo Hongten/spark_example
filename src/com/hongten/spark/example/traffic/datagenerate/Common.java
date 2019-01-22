@@ -29,6 +29,9 @@ public class Common implements Serializable {
 	public static final String COLON = ":";
 	public static final String COMMA = ",";
 	public static final String ZERO = "0";
+	public static final String AT = "@";
+	public static final String MINUS = "-";
+	public static final String GREATER_THAN_SIGN = ">";
 
 	// 车辆数
 	public static final int VEHICLE_NUMBER = 5000;
@@ -49,6 +52,7 @@ public class Common implements Serializable {
 	public static final String APP_NAME_TOP10_OVER_SPEED_VEHICLE_NUMBER = "Top 10 Over Speed Vehicle Number";
 	public static final String APP_NAME_TOP10_VEHICLE_NUMBER_HOUR = "Top 10 Vehicle Number Hour";
 	public static final String APP_NAME_TOP10_TRAFFIC_JAM = "Top 10 Traffic Jam";
+	public static final String APP_NAME_RANDOM_10_VEHICLE_TRACING = "Random 10 Vehicle Tracing";
 	
 	public static final String ROAD_ID = "roadId";
 	public static final String MONITOR_ID = "monitorId";
