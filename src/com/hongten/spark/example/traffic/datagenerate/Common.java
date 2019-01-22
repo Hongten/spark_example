@@ -21,6 +21,8 @@ public class Common implements Serializable {
 	public static final String[] ALPHABETICAL_ARRAY = new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 	public static final String DATE_FORMAT_YYYYMMDD = "dd/MM/yyyy";
 	public static final String DATE_FORMAT_YYYYMMDDHHMMSS = DATE_FORMAT_YYYYMMDD + " HH:mm:ss";
+	public static final String DECIMAL_FORMAT = "#.#####";
+	
 	public static final String CHARSETNAME_UTF_8 = "UTF-8";
 	public static final String SEPARATOR = "\t";
 	public static final String LINE_BREAK = "\n";
