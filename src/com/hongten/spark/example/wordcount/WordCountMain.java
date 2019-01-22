@@ -8,6 +8,7 @@ package com.hongten.spark.example.wordcount;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -30,6 +31,8 @@ import scala.Tuple2;
  */
 public class WordCountMain {
 
+	static final Logger logger = Logger.getLogger(WordCountMain.class);
+	
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		long begin = System.currentTimeMillis();
@@ -76,8 +79,8 @@ public class WordCountMain {
 		String first = filterLines.first();
 		
 		//same
-		System.out.println("take 1 : " + take1.get(0));
-		System.out.println("first : " + first);
+		logger.info("take 1 : " + take1.get(0));
+		logger.info("first : " + first);
 		
 		/**
 		 * output:
@@ -180,8 +183,8 @@ public class WordCountMain {
 
 			@Override
 			public void call(Tuple2<Integer, String> tuple) throws Exception {
-				//System.out.println(tuple._1 + " - " + tuple._2);
-				System.out.println(tuple.swap());
+				//logger.info(tuple._1 + " - " + tuple._2);
+				logger.info(tuple.swap());
 			}
 		});
 		
@@ -236,7 +239,7 @@ public class WordCountMain {
 		
 		//统计
 		long count = sortByKeyResult.count();
-		System.out.println("Count : " + count);
+		logger.info("Count : " + count);
 		
 		/**
 		 * output:
@@ -247,7 +250,7 @@ public class WordCountMain {
 	    //如果结果很大，会导致Driver端内存溢出OOM
 		List<Tuple2<Integer, String>> collectResult = sortByKeyResult.collect();
 		for (Tuple2<Integer, String> tem : collectResult) {
-			System.out.println("collect : " + tem.swap());
+			logger.info("collect : " + tem.swap());
 		}
 		
 		/**
@@ -294,7 +297,7 @@ public class WordCountMain {
 		
 		sc.stop();
 		long end = System.currentTimeMillis();
-		System.out.println("total: " + (end - begin)/1000 + " s");
+		logger.info("total: " + (end - begin)/1000 + " s");
 		
 		/**
 		 * output:
