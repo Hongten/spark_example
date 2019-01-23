@@ -156,7 +156,7 @@ public class DataGenerate implements DataLoad, Serializable{
 	 * 监控： 20001-20002 20003-20004 
 	 * 摄像头： 40001-40002-40003-40004 40005-40006-40007-40008
 	 */
-	public void generateRoadIds(JavaSparkContext jsc, SQLContext sqlContext, boolean loadRoadMonitorAndCameraData) {
+	public Integer[] generateRoadIds(JavaSparkContext jsc, SQLContext sqlContext, boolean loadRoadMonitorAndCameraData) {
 		List<Row> dataList = new ArrayList<Row>();
 		StringBuilder readMonitorCameraRelationship = null;
 		if (isGenerateFile) {
@@ -199,6 +199,7 @@ public class DataGenerate implements DataLoad, Serializable{
 		} else {
 			dataList = null;
 		}
+		return roadIdArray;
 	}
 
 	public void generateData(JavaSparkContext jsc, SQLContext sqlContext) {
@@ -233,7 +234,7 @@ public class DataGenerate implements DataLoad, Serializable{
 		//使用多线程
 		ExecutorService exec = Executors.newCachedThreadPool();
 		for (int i = 0; i < Common.VEHICLE_NUMBER; i++) {
-			String vehiclePlate = VehiclePlateGenerateSG.generatePlate();
+			String vehiclePlate = VehiclePlateGenerateSG.generatePlate(false);
 			//使用Future和Callable组合，可以获取到返回值
 			Future<String> result = exec.submit(new GenerateVehicleLog(date, random, errorRoadIdList, vehiclePlate, roadIdArray));
 			try {
@@ -281,7 +282,7 @@ public class DataGenerate implements DataLoad, Serializable{
 		logger.info("Finished load Vehicle Log data! Vehicle Log records : " + ((dataList != null && dataList.size() > 0) ? dataList.size(): 0));
 	}
 
-	private void generateErrorRoadIdList(Random random, List<Integer> errorRoadIdList) {
+	public void generateErrorRoadIdList(Random random, List<Integer> errorRoadIdList) {
 		for (int x = 0; x < Common.ROAD_ERROR_NUM; x++) {
 			if (errorRoadIdList.contains(roadIdArray[random.nextInt(roadIdArray.length)])) {
 				generateErrorRoadIdList(random, errorRoadIdList);

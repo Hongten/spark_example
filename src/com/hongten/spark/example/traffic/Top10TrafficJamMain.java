@@ -20,6 +20,7 @@ import com.hongten.spark.example.traffic.datagenerate.util.DataLoadUtils;
 
 /**
  * 需求： 在所有监控点里面，车速行驶缓慢，取前10个交通拥堵的监控点及对应的车辆数。假设车速在 1<=vehicle speed<=15 即为行驶缓慢。<br>
+ * 这里忽略时间的限制。我们需要有这样的思想。我们可以在SparkStreaming里面做详细的说明。<br>
  * 
  * 目的： 对监控点车速进行监控，可以实时获取交通拥堵情况。相关部门可以对交通拥堵情况采取措施。比如通过广播方式，让司机改道。<br>
  * 

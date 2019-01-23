@@ -38,12 +38,12 @@ public class VehiclePlateGenerateSG implements Serializable {
 	// 如果在这个list里面找到，那么需要重新产生
 	private static List<String> uniqueList = new ArrayList<String>();
 
-	public static String generatePlate() {
+	public static String generatePlate(boolean ableDuplicatVehiclePlate) {
 		// System.out.println(ALPHABETICAL_ARRAY[18]);// S
 		String alphabeticalSeries = getAlphabeticalStr(Common.ALPHABETICAL_ARRAY, random) + getAlphabeticalStr(Common.ALPHABETICAL_ARRAY, random);
 		// System.out.println(alphabeticalSeries);//KV
 
-		String numbericalSeries = getNumericalSeriesStr(random);
+		String numbericalSeries = getNumericalSeriesStr(random, ableDuplicatVehiclePlate);
 		// System.out.println(numbericalSeries);//62010
 
 		String checksumLetter = getChecksumLetterStr(Common.ALPHABETICAL_ARRAY, random);
@@ -63,15 +63,19 @@ public class VehiclePlateGenerateSG implements Serializable {
 		}
 	}
 
-	private static String getNumericalSeriesStr(Random random) {
+	private static String getNumericalSeriesStr(Random random, boolean ableDuplicatVehiclePlate) {
 		// 为了区别真实的车牌，我们把数字设置为5位
 		String numericalStr = random.nextInt(10) + "" + random.nextInt(10) + "" + random.nextInt(10) + "" + random.nextInt(10) + "" + random.nextInt(10);
-		if (uniqueList.contains(numericalStr)) {
-			// 如果存在，则重新产生
-			return getNumericalSeriesStr(random);
-		} else {
-			uniqueList.add(numericalStr);
+		if (ableDuplicatVehiclePlate) {
 			return numericalStr;
+		} else {
+			if (uniqueList.contains(numericalStr)) {
+				// 如果存在，则重新产生
+				return getNumericalSeriesStr(random, ableDuplicatVehiclePlate);
+			} else {
+				uniqueList.add(numericalStr);
+				return numericalStr;
+			}
 		}
 	}
 
