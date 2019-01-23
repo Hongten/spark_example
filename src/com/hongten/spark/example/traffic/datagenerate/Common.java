@@ -48,16 +48,7 @@ public class Common implements Serializable {
 	public static final int MAX_SPEED = 300;
 	// 超速
 	public static final int OVER_SPEED = 250;
-
-	public static final String MASTER_NAME = "local";
-	public static final String APP_NAME_MONITOR_STATUS = "Monitor Status";
-	public static final String APP_NAME_TOP10_MONITOR = "Top 10 Monitor";
-	public static final String APP_NAME_TOP10_OVER_SPEED_MONITOR = "Top 10 Over Speed Monitor";
-	public static final String APP_NAME_TOP10_OVER_SPEED_VEHICLE_NUMBER = "Top 10 Over Speed Vehicle Number";
-	public static final String APP_NAME_TOP10_VEHICLE_NUMBER_HOUR = "Top 10 Vehicle Number Hour";
-	public static final String APP_NAME_TOP10_TRAFFIC_JAM = "Top 10 Traffic Jam";
-	public static final String APP_NAME_RANDOM_10_VEHICLE_TRACING = "Random 10 Vehicle Tracing";
-
+	
 	public static final String ROAD_ID = "roadId";
 	public static final String MONITOR_ID = "monitorId";
 	public static final String CAMERA_ID = "cameraId";
@@ -70,6 +61,26 @@ public class Common implements Serializable {
 	public static final String T_VEHICLE_LOG = "t_vehicle_log";
 	public static final String T_ROAD_MONITOR_CAMERA_RELATIONSHIP = "t_road_monitor_camera_relationship";
 
+	//Spark Core and SparkSQL
+	public static final String MASTER_NAME = "local";
+	public static final String APP_NAME_MONITOR_STATUS = "Monitor Status";
+	public static final String APP_NAME_TOP10_MONITOR = "Top 10 Monitor";
+	public static final String APP_NAME_TOP10_OVER_SPEED_MONITOR = "Top 10 Over Speed Monitor";
+	public static final String APP_NAME_TOP10_OVER_SPEED_VEHICLE_NUMBER = "Top 10 Over Speed Vehicle Number";
+	public static final String APP_NAME_TOP10_VEHICLE_NUMBER_HOUR = "Top 10 Vehicle Number Hour";
+	public static final String APP_NAME_TOP10_TRAFFIC_JAM = "Top 10 Traffic Jam";
+	public static final String APP_NAME_RANDOM_10_VEHICLE_TRACING = "Random 10 Vehicle Tracing";
+
+	//SparkStreaming
+	public static final String APP_NAME_REAL_TIME_TRAFFIC_JAM_STATUS = "Real Time Traffic Jam Status";
+	//SparkStreaming的窗口函数，每隔多少时间处理一批数据
+	public static final int SPARK_STREAMING_PROCESS_DATA_FREQUENCY = 5;
+	//SparkStreaming的窗口函数，处理多久的数据
+	public static final int SPARK_STREAMING_PROCESS_DATA_HISTORY = 1;
+	
+	public static final String SPARK_STREAMING_LOG_LEVEL = "WARN";
+	public static final String SPARK_CHECK_POINT_DIR = "./checkpoint";
+	
 	// Kafka conf
 	public static final String SERIALIZER_CLASS = "serializer.class";
 	public static final String SERIALIZER_CLASS_AVLUE = "kafka.serializer.StringEncoder";
@@ -79,7 +90,6 @@ public class Common implements Serializable {
 	public static final int DATA_GENERATION_FREQUENCY = 3;
 	// 每次产生数据最大值
 	public static final int DATA_GENERATION_MAX_CAPACITY = 5000;
-
 	// kafka 里面的Topic
 	public static final String KAFKA_TOPIC_SPARK_REAL_TIME_VEHICLE_LOG = "spark-real-time-vehicle-log";
 

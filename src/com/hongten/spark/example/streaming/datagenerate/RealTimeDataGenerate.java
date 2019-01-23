@@ -46,7 +46,7 @@ public class RealTimeDataGenerate implements Runnable {
 	public void run() {
 		int dataIndex = 0;
 		while (true) {
-			generateRealTimeDataToKafka();
+			generateRealTimeDataToKafka(dataIndex);
 			try {
 				// 每次产生数据最大值
 				if (dataIndex >= this.random.nextInt(Common.DATA_GENERATION_MAX_CAPACITY)) {
@@ -65,8 +65,8 @@ public class RealTimeDataGenerate implements Runnable {
 	/**
 	 * 向kafka中发送数据
 	 */
-	private void generateRealTimeDataToKafka() {
-		producer.send(new KeyedMessage<String, String>(Common.KAFKA_TOPIC_SPARK_REAL_TIME_VEHICLE_LOG, getOneVehicleLog()));
+	private void generateRealTimeDataToKafka(int key) {
+		producer.send(new KeyedMessage<String, String>(Common.KAFKA_TOPIC_SPARK_REAL_TIME_VEHICLE_LOG, key+Common.EMPTY, getOneVehicleLog()));
 	}
 
 	/**

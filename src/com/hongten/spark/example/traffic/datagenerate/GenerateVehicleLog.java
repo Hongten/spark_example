@@ -26,6 +26,7 @@ public class GenerateVehicleLog implements Callable<String>{
 	String vehiclePlate;
 	Integer[] roadIdArray;
 	static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Common.DATE_FORMAT_YYYY_MM_DD_HHMMSS);
+	static int[] seed = new int[]{1, 2, 3, 5, 6, 10, 20, 30, 50, 60, 100};
 	
 	public GenerateVehicleLog() {
 		super();
@@ -99,7 +100,9 @@ public class GenerateVehicleLog implements Callable<String>{
 				contentSb.append(date).append(Common.BLANK).append(StringUtils.fulfuill(String.valueOf(random.nextInt(24)))).append(Common.COLON).append(StringUtils.fulfuill(String.valueOf(random.nextInt(60)))).append(Common.COLON).append(StringUtils.fulfuill(String.valueOf(random.nextInt(60)))).append(Common.SEPARATOR);
 			}
 			contentSb.append(vehiclePlate).append(Common.SEPARATOR);
-			contentSb.append((random.nextInt(Common.MAX_SPEED) + 1)).append(Common.SEPARATOR);
+			//为了模拟真实的车速
+			int nextInt = seed[random.nextInt(seed.length)];
+			contentSb.append((random.nextInt(Common.MAX_SPEED)/nextInt + 1)).append(Common.SEPARATOR);
 			contentSb.append(roadId).append(Common.SEPARATOR);
 			contentSb.append(monitorId).append(Common.SEPARATOR);
 			contentSb.append(cameraIdArray[random.nextInt(cameraIdArray.length)]).append(Common.LINE_BREAK);
