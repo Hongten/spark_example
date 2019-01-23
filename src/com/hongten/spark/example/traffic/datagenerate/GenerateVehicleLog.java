@@ -26,8 +26,8 @@ public class GenerateVehicleLog implements Callable<String>{
 	String vehiclePlate;
 	Integer[] roadIdArray;
 	static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Common.DATE_FORMAT_YYYY_MM_DD_HHMMSS);
-	static int[] seed = new int[]{1, 2, 3, 5, 6, 10, 20, 30, 50, 60, 100};
-	
+	static int[] seed = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 50, 60, 100, 150, 300 };
+
 	public GenerateVehicleLog() {
 		super();
 	}
