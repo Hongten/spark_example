@@ -237,18 +237,20 @@ public class RealTimeVehicleSpeedMonitorMain implements Serializable {
 							// 如果vehicle speed < 30，就判断为拥堵状态
 							if (totalVehicleNumber != 0) {
 								int averageVehicleSpeed = totalVehicleSpeed / totalVehicleNumber;
+								String trafficStatus = "";
 								if (averageVehicleSpeed <= 5) {
 									// 直接堵上了
-									logger.warn("[JAM        ] - Current Time : " + sdf.format(Calendar.getInstance().getTime()) + ", Monitor : " + monitorId + ", Total Vehicle Number : " + totalVehicleNumber + ", Total Vehicle Speed : " + totalVehicleSpeed + ", Current Average Speed : " + averageVehicleSpeed);
+									trafficStatus = "[JAM        ]";
 								} else if (averageVehicleSpeed > 5 && averageVehicleSpeed <= 10) {
 									// 严重拥堵，但是还可以移动
-									logger.warn("[GRIDLOCKED ] - Current Time : " + sdf.format(Calendar.getInstance().getTime()) + ", Monitor : " + monitorId + ", Total Vehicle Number : " + totalVehicleNumber + ", Total Vehicle Speed : " + totalVehicleSpeed + ", Current Average Speed : " + averageVehicleSpeed);
+									trafficStatus = "[GRIDLOCKED ]";
 								} else if (averageVehicleSpeed > 10 && averageVehicleSpeed <= 30) {
 									// 行驶缓慢
-									logger.warn("[SLOW-MOVING] - Current Time : " + sdf.format(Calendar.getInstance().getTime()) + ", Monitor : " + monitorId + ", Total Vehicle Number : " + totalVehicleNumber + ", Total Vehicle Speed : " + totalVehicleSpeed + ", Current Average Speed : " + averageVehicleSpeed);
+									trafficStatus = "[SLOW-MOVING]";
 								} else {
 									// 正常通行
 								}
+								logger.warn(trafficStatus+ " - Current Time : " + sdf.format(Calendar.getInstance().getTime()) + ", Monitor : " + monitorId + ", Total Vehicle Number : " + totalVehicleNumber + ", Total Vehicle Speed : " + totalVehicleSpeed + ", Current Average Speed : " + averageVehicleSpeed);
 							}
 						}
 					}
