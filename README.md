@@ -2,7 +2,8 @@
 在这里面包含Spark Core和SparkStreaming的例子。
 
 
-﻿# Spark Core Example
+# Spark Core Example
+
 * [WordCountMain](https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/wordcount/WordCountMain.java) : 对单词个数进行统计，然后按照出现次数由大到小输出。
 * [MonitorStatusMain](https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/traffic/MonitorStatusMain.java) : 需求： 统计分析监控点和摄像头的状态（正常工作/异常） 。 目的：如果摄像头异常，那么，就需要对这些摄像头进行维修或者更换。
 * [Random10VehicleTracingMain](https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/traffic/Random10VehicleTracingMain.java) : 需求： 在所有监控点里面，随机抽取10辆车，然后计算出这些车的车辆轨迹。 目的： 对公交车轨迹分析，可以知道该公交车是否有改道行为。对可疑车辆进行轨迹追踪，协助有关部门破案。
@@ -14,6 +15,7 @@
 
 
 ﻿# SparkStreaming Example
+
 * [RealTimeVehicleSpeedMonitorMain](https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/streaming/RealTimeVehicleSpeedMonitorMain.java) : 需求：使用SparkStreaming，并且结合Kafka，获取实时道路交通拥堵情况信息。目的： 对监控点平均车速进行监控，可以实时获取交通拥堵情况信息。相关部门可以对交通拥堵情况采取措施。 e.g.1.通过广播方式，让司机改道。 2.通过实时交通拥堵情况数据，反映在一些APP上面，形成实时交通拥堵情况地图，方便用户查询。
 
 
