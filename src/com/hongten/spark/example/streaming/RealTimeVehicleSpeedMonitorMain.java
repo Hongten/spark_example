@@ -82,7 +82,7 @@ public class RealTimeVehicleSpeedMonitorMain implements Serializable {
 
 		SparkConf conf = new SparkConf();
 		conf.setMaster(Common.MASTER_NAME).setAppName(Common.APP_NAME_REAL_TIME_TRAFFIC_JAM_STATUS);
-		conf.set("spark.local.dir", Common.SPARK_CHECK_POINT_DIR);
+		conf.set(Common.SPARK_LOCAL_DIR, Common.SPARK_CHECK_POINT_DIR);
 
 		JavaStreamingContext jsc = new JavaStreamingContext(conf, Durations.seconds(Common.SPARK_STREAMING_PROCESS_DATA_FREQUENCY));
 		// 日志级别
@@ -96,10 +96,10 @@ public class RealTimeVehicleSpeedMonitorMain implements Serializable {
 		Set<String> topicSet = new HashSet<String>();
 		topicSet.add(Common.KAFKA_TOPIC_SPARK_REAL_TIME_VEHICLE_LOG);
 
-		JavaPairInputDStream<String, String> carRealTimeLogDStream = KafkaUtils.createDirectStream(jsc, String.class, String.class, StringDecoder.class, StringDecoder.class, kafkaParams, topicSet);
+		JavaPairInputDStream<String, String> vehicleLogDS = KafkaUtils.createDirectStream(jsc, String.class, String.class, StringDecoder.class, StringDecoder.class, kafkaParams, topicSet);
 
 		// 获取行： 2019-01-22 18:15:18 SSX14139U 141 10006 20011 4002
-		JavaDStream<String> vehicleLogDStream = vehicleLogDstream(carRealTimeLogDStream);
+		JavaDStream<String> vehicleLogDStream = vehicleLogDstream(vehicleLogDS);
 
 		// 移除脏数据
 		JavaDStream<String> vehicleLogFilterDStream = filter(vehicleLogDStream);
@@ -121,8 +121,8 @@ public class RealTimeVehicleSpeedMonitorMain implements Serializable {
 		jsc.awaitTermination();
 	}
 
-	private JavaDStream<String> vehicleLogDstream(JavaPairInputDStream<String, String> carRealTimeLogDStream) {
-		JavaDStream<String> vehicleLogDStream = carRealTimeLogDStream.map(new Function<Tuple2<String, String>, String>() {
+	private JavaDStream<String> vehicleLogDstream(JavaPairInputDStream<String, String> vehicleLogDS) {
+		JavaDStream<String> vehicleLogDStream = vehicleLogDS.map(new Function<Tuple2<String, String>, String>() {
 
 			private static final long serialVersionUID = 1L;
 

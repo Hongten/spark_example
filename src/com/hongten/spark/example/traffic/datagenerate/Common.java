@@ -79,6 +79,7 @@ public class Common implements Serializable {
 	public static final int SPARK_STREAMING_PROCESS_DATA_HISTORY = 1;
 	
 	public static final String SPARK_STREAMING_LOG_LEVEL = "WARN";
+	public static final String SPARK_LOCAL_DIR = "spark.local.dir";
 	public static final String SPARK_CHECK_POINT_DIR = "./checkpoint";
 	
 	// Kafka conf
