@@ -5,6 +5,7 @@
 # Spark Core Example
 
 * [WordCountMain](https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/wordcount/WordCountMain.java) : 对单词个数进行统计，然后按照出现次数由大到小输出。
+* [RemoveMaxOccurrenceWordMain](https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/wordcount/RemoveMaxOccurrenceWordMain.java) : 需求： 读取一个文件，统计单词出现的次数。并且把出现次数多的单词移除掉，然后将剩下的单词按照出现次数降序排序。
 * [MonitorStatusMain](https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/traffic/MonitorStatusMain.java) : 
 需求： 统计分析监控点和摄像头的状态（正常工作/异常） 。 
 目的：如果摄像头异常，那么，就需要对这些摄像头进行维修或者更换。
