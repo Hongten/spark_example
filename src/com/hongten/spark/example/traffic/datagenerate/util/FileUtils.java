@@ -49,7 +49,7 @@ public class FileUtils implements Serializable {
 		try {
 			String content = newContent;
 			File file = new File(pathFileName);
-			fos = new FileOutputStream(file, true);
+			fos = new FileOutputStream(file, false);
 			osw = new OutputStreamWriter(fos, Common.CHARSETNAME_UTF_8);
 			pw = new PrintWriter(osw);
 			pw.write(content);

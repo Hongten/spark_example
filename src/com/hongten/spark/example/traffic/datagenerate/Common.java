@@ -17,6 +17,8 @@ public class Common implements Serializable {
 	public static String VEHICLE_LOG = "./resources/vehicle_log";
 	public static String ERROR_ROAD_IDS = "./resources/error_road_ids";
 	public static String ROAD_MONITOR_CAMERA_RELATIONSHIP = "./resources/road_monitor_camera_relationship";
+	
+	public static String REAL_TIME_RESULT_PAGE = "./output/realTimeVehicleSpeedMonitor.html";
 
 	public static final String[] ALPHABETICAL_ARRAY = new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 	public static final String DATE_FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
