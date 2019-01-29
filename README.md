@@ -35,6 +35,7 @@
 
 ![alt text](https://github.com/Hongten/spark_example/blob/master/output/realTimeVehicleSpeedMonitor.gif)
 
+
 * [RealTimeVehicleSpeedMonitorMain](https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/streaming/RealTimeVehicleSpeedMonitorMain.java) : 
 需求：使用SparkStreaming，并且结合Kafka，获取实时道路交通拥堵情况信息。
 目的： 对监控点平均车速进行监控，可以实时获取交通拥堵情况信息。相关部门可以对交通拥堵情况采取措施。
