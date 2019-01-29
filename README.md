@@ -31,8 +31,6 @@
 
 # SparkStreaming Example
 
-![Example](https://github.com/Hongten/RootMemory/blob/master/image/contact.png)
-
 ![alt text](https://github.com/Hongten/spark_example/blob/master/output/realTimeVehicleSpeedMonitor.gif)
 
 
@@ -41,8 +39,6 @@
 目的： 对监控点平均车速进行监控，可以实时获取交通拥堵情况信息。相关部门可以对交通拥堵情况采取措施。
 e.g.1.通过广播方式，让司机改道。 
     2.通过实时交通拥堵情况数据，反映在一些APP上面，形成实时交通拥堵情况地图，方便用户查询。
-
-![Example](https://github.com/Hongten/spark_example/tree/master/output/realTimeVehicleSpeedMonitor.gif)
 
 
 # More Information
