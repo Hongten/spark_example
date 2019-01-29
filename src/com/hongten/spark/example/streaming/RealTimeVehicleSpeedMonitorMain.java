@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import kafka.serializer.StringDecoder;
 
@@ -32,6 +33,7 @@ import org.apache.spark.streaming.kafka.KafkaUtils;
 
 import scala.Tuple2;
 
+import com.hongten.spark.example.streaming.util.FileUtils;
 import com.hongten.spark.example.streaming.util.RealTimeDataGenerateUtils;
 import com.hongten.spark.example.traffic.datagenerate.Common;
 
@@ -60,6 +62,8 @@ import com.hongten.spark.example.traffic.datagenerate.Common;
  * <br>
  * 
  * Step 5： 运行RealTimeVehicleSpeedMonitorMain<br>
+ * 
+ * Step 6： 在开浏览器中把./output/realTimeVehicleSpeedMonitor.html文件打开，查看动态效果。<br>
  * 
  * 
  * @author Hongten
@@ -223,12 +227,14 @@ public class RealTimeVehicleSpeedMonitorMain implements Serializable {
 			@Override
 			public void call(JavaPairRDD<String, Tuple2<Integer, Integer>> rdd) throws Exception {
 				final SimpleDateFormat sdf = new SimpleDateFormat(Common.DATE_FORMAT_YYYY_MM_DD_HHMMSS);
+				final Map<Integer, Integer> result = new TreeMap<Integer, Integer>();
 				logger.warn("**********************");
 				rdd.foreachPartition(new VoidFunction<Iterator<Tuple2<String, Tuple2<Integer, Integer>>>>() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void call(Iterator<Tuple2<String, Tuple2<Integer, Integer>>> ite) throws Exception {
+						
 						while (ite.hasNext()) {
 							Tuple2<String, Tuple2<Integer, Integer>> tuple = ite.next();
 							String monitorId = tuple._1;
@@ -237,7 +243,10 @@ public class RealTimeVehicleSpeedMonitorMain implements Serializable {
 							// 如果vehicle speed < 30，就判断为拥堵状态
 							if (totalVehicleNumber != 0) {
 								int averageVehicleSpeed = totalVehicleSpeed / totalVehicleNumber;
-								if (averageVehicleSpeed <= 5) {
+								//collect result
+								result.put(Integer.valueOf(monitorId), averageVehicleSpeed);
+								
+								/*if (averageVehicleSpeed <= 5) {
 									// 直接堵上了
 									logger.warn("[JAM        ] - Current Time : " + sdf.format(Calendar.getInstance().getTime()) + ", Monitor : " + monitorId + ", Total Vehicle Number : " + totalVehicleNumber + ", Total Vehicle Speed : " + totalVehicleSpeed + ", Current Average Speed : " + averageVehicleSpeed);
 								} else if (averageVehicleSpeed > 5 && averageVehicleSpeed <= 10) {
@@ -248,9 +257,10 @@ public class RealTimeVehicleSpeedMonitorMain implements Serializable {
 									logger.warn("[SLOW-MOVING] - Current Time : " + sdf.format(Calendar.getInstance().getTime()) + ", Monitor : " + monitorId + ", Total Vehicle Number : " + totalVehicleNumber + ", Total Vehicle Speed : " + totalVehicleSpeed + ", Current Average Speed : " + averageVehicleSpeed);
 								} else {
 									// 正常通行
-								}
+								}*/
 							}
 						}
+						FileUtils.generateFile(Common.REAL_TIME_RESULT_PAGE, result, Common.SPARK_STREAMING_PROCESS_DATA_FREQUENCY, sdf.format(Calendar.getInstance().getTime()));
 					}
 				});
 			}
