@@ -37,8 +37,22 @@ public class WordCountMain {
 	public static void main(String[] args) {
 		long begin = System.currentTimeMillis();
 		SparkConf conf = new SparkConf();
+		/**
+		 * Spark运行模式：
+		 * 1.local - 在eclipse，IDEA中开发Spark程序中使用，本地模式，多用于测试
+		 * 2.stanalone - Spark自带的资源调度框架，支持分布式搭建， Spark任务可以依赖standalone调度资源
+		 * 3.yarn - hadoop生态圈资源调度框架。支持分布式搭建。Spark也可以基于yarn调度资源
+		 * 4.mesos - 资源调度框架
+		 */
 		conf.setMaster("local");
+		/**
+		 * 设置Spark在WebUI中显示的application名称
+		 */
 		conf.setAppName("wordCount");
+		/**
+		 * 可以设置当前Spark application的运行资源，比如内存资源和CUP个数
+		 */
+		//conf.set("spark.driver.userClassPathFirst", "false");
 
 		// JavaSparkContext是通往集群的唯一通道
 		JavaSparkContext sc = new JavaSparkContext(conf);
@@ -113,6 +127,7 @@ public class WordCountMain {
 
 		// 对单词进行计数
 		//example: <"Hello", 1>, <"Hongten", 1>
+		//如果想获取到一个K,V格式的RDD，可以使用mapToPair
 		JavaPairRDD<String, Integer> pairWords = words.mapToPair(
 		/**
 		 * String1 --一个单词 
