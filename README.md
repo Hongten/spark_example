@@ -29,6 +29,14 @@
 目的： 检测给出的两个监控点的设计是否合理。如果转化率太低，说明这样的设计不是很合理，那么可以通过采取一些措施，使得资源得到充分利用。
 
 
+# 好友推荐
+
+![alt text](https://github.com/Hongten/spark_example/blob/master/resources/recommendation.png)
+
+* [FriendRecommendationMain]https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/recommendation/FriendRecommendationMain.java) : 
+需求：实现 好友推荐功能,推荐Top2的好友
+目的：增加application的用户粘度，让更多的用户使用该产品
+
 # SparkStreaming Example
 
 ![alt text](https://github.com/Hongten/spark_example/blob/master/output/realTimeVehicleSpeedMonitor.gif)
