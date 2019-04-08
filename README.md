@@ -33,7 +33,7 @@
 
 ![alt text](https://github.com/Hongten/spark_example/blob/master/resources/recommendation.png)
 
-* [FriendRecommendationMain]https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/recommendation/FriendRecommendationMain.java) : 
+* [FriendRecommendationMain](https://github.com/Hongten/spark_example/blob/master/src/com/hongten/spark/example/recommendation/FriendRecommendationMain.java) : 
 需求：实现 好友推荐功能,推荐Top2的好友
 目的：增加application的用户粘度，让更多的用户使用该产品
 
